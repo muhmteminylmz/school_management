@@ -30,9 +30,6 @@ import java.util.stream.Collectors;
 public class DeanService {
 
     private final DeanRepository deanRepository;
-
-    //private final AdminService adminService;//Bunlari burda kullanabilmemiz sebebi @Service deki component
-
     private final DeanDto deanDto;
 
     private final UserRoleService userRoleService;
@@ -47,10 +44,6 @@ public class DeanService {
         fieldControl.checkDuplicate(deanRequest.getUsername(),
                 deanRequest.getSsn(),
                 deanRequest.getPhoneNumber());
-        /*adminService.checkDuplicate(
-                deanRequest.getUsername(),
-                deanRequest.getSsn(),
-                deanRequest.getPhoneNumber());*/
 
         //DTO-POJO donusum
         Dean dean = createDtoForDean(deanRequest);
@@ -58,9 +51,7 @@ public class DeanService {
         dean.setUserRole(userRoleService.getUserRole(RoleType.MANAGER));
         dean.setPassword(passwordEncoder.encode(dean.getPassword()));
 
-        //DB ye kayit
         Dean savedDean = deanRepository.save(dean);
-        //savedDean kullaniyoruz cunku dean de id gibi bilgiler yok
 
         return ResponseMessage.<DeanResponse>builder().
                 message("Dean saved").
@@ -95,22 +86,13 @@ public class DeanService {
 
         deanRepository.deleteById(deanId);
 
-        /*
-        Optional<Dean> dean  = deanRepository.findById(deanId);
-
-        //Dean objesi bos olma kontrolu
-        if (!dean.isPresent()){ // isEmpty() de kullanilabilir
-
-            throw new ResourceNotFoundException(String.format(Messages.NOT_FOUND_USER2_MESSAGE, deanId));
-        }else */if (!CheckParameterUpdateMethod.checkParameter(dean.get(),newDean)) {
+        if (!CheckParameterUpdateMethod.checkParameter(dean.get(),newDean)) {
 
                     fieldControl.checkDuplicate(newDean.getUsername(),
                     newDean.getSsn(),
                     newDean.getPhoneNumber());
-            //adminService.checkDuplicate(newDean.getUsername(),newDean.getSsn(),newDean.getPhoneNumber());
         }
 
-        //guncellenen yeni bilgilerle Dean objesini kaydediyoruz
         Dean updatedDean = createUpdatedDean(newDean,deanId);
         updatedDean.setPassword(passwordEncoder.encode(newDean.getPassword()));
 
@@ -153,13 +135,10 @@ public class DeanService {
 
     public ResponseMessage<DeanResponse> getDeanById(Long deanId) {
 
-        //odev : asagida surekli tekrar ettigimiz kod gurubu method haline cevirip cagirilacak
-
         Optional<Dean> dean = checkDeanExists(deanId);
 
         deanRepository.deleteById(deanId);
 
-        //Zaten gelen objeyi tekrar geri dondurmemizin sebebi FRONT-END tarafi istedi.
         return ResponseMessage.<DeanResponse>builder().
                 message("Dean Successfully Found").
                 httpStatus(HttpStatus.OK).

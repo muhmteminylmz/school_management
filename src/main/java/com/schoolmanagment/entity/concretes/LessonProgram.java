@@ -53,10 +53,9 @@ public class LessonProgram implements Serializable {
     @ManyToMany(mappedBy = "lessonsProgramList", fetch = FetchType.EAGER)
     private Set<Student> students;
 
-    //@PreRemove yazilacak
+    //@PreRemove
     @PreRemove
     private void removeLessonProgramFromStudent() {
-        //Lesson programi direkt silemeyiz.Bu yuzden ilk olarak teacher,student daki dersleri kaldirmaliyiz.
         teachers.forEach((t) -> {
             t.getLessonsProgramList().remove(this);
         });
@@ -64,5 +63,5 @@ public class LessonProgram implements Serializable {
         students.forEach((s) -> {
             s.getLessonsProgramList().remove(this);
         });
-    }//Service dede yapabiliriz.Farkli bakis acisi
+    }
 }

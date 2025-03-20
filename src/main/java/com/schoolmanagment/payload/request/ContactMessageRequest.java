@@ -16,19 +16,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ContactMessageRequest implements Serializable {
-    /*
-DTO'lar, genellikle serileştirilebilir olarak tanımlanır, çünkü bu nesneler
-genellikle bir sistemden diğerine taşınan verileri temsil eder.
-İstemciye (frontend) gönderilecek veriler seri hale getirildikten sonra,
-istemci tarafında bu veriler geri alınarak işlenir.
-     */
+
 
     //Burdan bilgileri alacagiz.Bu cift kontrol
-
     @NotNull(message = "Please enter name")
     @Size(min = 4, max = 16,message = "Your name should be at least 4 chars")
     @Pattern(regexp = "\\A(?!\\s+\\Z).+",message = "Your name must consist of the characters .")
-    //Ezberleme : Bosluk olmayacak ve en az 1 karakter(alfabetik) olacak
     private String name;
 
     @Email(message = "Please enter valid email")

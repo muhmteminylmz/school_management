@@ -30,8 +30,6 @@ public class MeetController {
     //Not: save() ***
     @PreAuthorize("hasAnyAuthority('TEACHER')")
     @PostMapping("/save")
-    //eger Teacher id sini PathVariable la alirsak baska teacher,diger teacher a meet atayabilir
-    //Bu yuzden biz getPrincible la bunu Service den alacagiz.
     public ResponseMessage<MeetResponse> save(HttpServletRequest httpServletRequest, @RequestBody @Valid MeetRequestWithoutId meetRequestWithoutId) {
 
         String username = (String) httpServletRequest.getAttribute("username");

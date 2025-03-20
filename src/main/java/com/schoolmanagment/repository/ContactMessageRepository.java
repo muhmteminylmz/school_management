@@ -15,13 +15,12 @@ public interface ContactMessageRepository extends JpaRepository<ContactMessage,L
 
 
     boolean existsByEmailEqualsAndDateEquals(String email, LocalDate now);
-    //Bunun turkcesi Date ile Email i esit olan bir veri varmi(keyword ler schoolmanagement classinda var)
-    //Hicbir sey yazmamiza gerek kalmadan exist turetilebilen method sayesinde.
+    //Date ile Email i esit olan bir veri varmi
 
     Page<ContactMessage> findByEmailEquals(String email, Pageable pageable);
 
     Page<ContactMessage> findBySubjectEquals(String subject, Pageable pageable);
-    //findAll gibi calisiyor.findAll kullanmadik cunku pageable yapida calismiyor.Bizde keyword le hallettik
+    //findAll gibi calisiyor.
 
 
 }

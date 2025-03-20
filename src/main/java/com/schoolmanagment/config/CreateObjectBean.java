@@ -8,7 +8,7 @@ import com.schoolmanagment.payload.dto.ViceDeanDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration//Bunu inject yapmayacaagimizdan Component yerine Config kullandik.Methodlarini kullanicaz
+@Configuration
 public class CreateObjectBean {
 
     @Bean
@@ -16,8 +16,6 @@ public class CreateObjectBean {
         return new DeanDto();
     }
 
-    //class adi Dto ancak icindeki methodlari kullanicaz,method injection yapmiyoruz
-    //Class injection yapiyoruz.
     @Bean
     public ViceDeanDto viceDeanDto(){
         return new ViceDeanDto();

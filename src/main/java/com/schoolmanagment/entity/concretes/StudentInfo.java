@@ -42,7 +42,7 @@ public class StudentInfo {
 
     @ManyToOne
     @JsonIgnoreProperties("lesson")
-    private Lesson lesson;//Student cakirirken bos yere bu datalar gelmesin
+    private Lesson lesson;
 
     @OneToOne
     private EducationTerm educationTerm;

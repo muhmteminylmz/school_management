@@ -100,14 +100,14 @@ public class LessonProgramController {
         return lessonProgramService.search(page,size,sort,type);
     }
 /*
+    Ihtiyaci karsilamadigi icin iptal edildi.
+
     //Not: update() ***
     @PutMapping("/update/{lessonProgramId}") // http://localhost:8080/lessonPrograms/update/1
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER','TEACHER')")
     public ResponseMessage<LessonProgramResponse> update(
             @PathVariable Long lessonProgramId,
             @RequestBody @Valid LessonProgramRequestForUpdate lessonProgramRequest
-            //ihtiyaclarimizi karsilamadigi icin baska request kullaniyoruz
-            //Senaryoya uygun DTO yazilmali
             ){
         return lessonProgramService.update(lessonProgramId,lessonProgramRequest);
     }*/

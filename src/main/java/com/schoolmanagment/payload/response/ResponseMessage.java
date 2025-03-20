@@ -12,10 +12,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)//Json icindeki null olanlar gozukmememesini sagliyoruz.
-//@MappedSuperclass DTO tarzi class larda DB ile alakasi olmadigindan buna gerek yok
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseMessage<E> {
-//Kendi ResponseEntity mizi olusturuyoruz(Custom)
 
     private E object;
     private String message;

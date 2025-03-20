@@ -37,7 +37,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         try {
-            //jwt tokeni request in icinden cikariyoruz.
             String jwt = parseJwt(request);
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)){
@@ -50,7 +49,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                //setDetails veya Attribute ile Service de ihtiyac duyabilecegimiz datalarida setliyoruz
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (UsernameNotFoundException e) {
@@ -65,8 +63,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String headerAuth = request.getHeader("Authorization");
 
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")){
-            //Normalde ilk sorguya gerek yok,ancak performans gerektiren seyler calistirdigimiz icin
-            //ilk sorgu erken cikmamizi saglayabildiginden kullandik.
             return headerAuth.substring(7);
         }
 

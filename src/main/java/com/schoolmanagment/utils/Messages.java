@@ -2,8 +2,6 @@ package com.schoolmanagment.utils;
 
 public class Messages {
 
-    //BU class turetilmeden kullanabilsin
-    //Genelde buyuk yazilir,DEV hata mesaji oldugunu anlar
     public static final String ALREADY_SEND_A_MESSAGE_TODAY =
             "Error : Your already send message with this e-mail address today";
 

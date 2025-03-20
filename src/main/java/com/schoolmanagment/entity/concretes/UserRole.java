@@ -14,11 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserRole {
-    //Ara sinif(concrete class) kullaniyoruz.Cunku yeni Rol eklersek kodu sonra degistirmemiz gerekir.
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;//az rolumuz oldugundan Integer
+    private Integer id;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)

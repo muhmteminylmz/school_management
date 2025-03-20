@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "admins")
 @Getter
-@Setter//ToString e gerek yok
+@Setter
 @NoArgsConstructor
 @SuperBuilder
 public class Admin extends User {

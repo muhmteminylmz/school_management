@@ -5,9 +5,6 @@ import com.schoolmanagment.payload.request.DeanRequest;
 import lombok.Data;
 
 @Data
-//@Component Bunu her dto icin eklememiz gerekecek
-//Bunun yerine CreateObjectBean config i ile tum beanleri 1 class da topluyacagiz
-//Boylece hepsini duzenli sekilde gorebilecegiz
 public class DeanDto {
 
     //DTO - POJO

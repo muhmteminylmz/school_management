@@ -26,12 +26,9 @@ public class SchoolManagmentApplication implements CommandLineRunner {
 		SpringApplication.run(SchoolManagmentApplication.class, args);
 	}
 
-	//Bunun amaci uygulama basladiginda otomatik olarak calismasini istedigimis seyler
-	//Bizim icin Rollerin tablosu ve 1 tane tanimli Adminin olusmasi
 	@Override
 	public void run(String... args) throws Exception {
 
-		//Role tablosu dolduracagiz
 		if (userRoleService.getAllUserRole().size() == 0){
 			userRoleService.save(RoleType.ADMIN);
 			userRoleService.save(RoleType.MANAGER);
@@ -46,7 +43,6 @@ public class SchoolManagmentApplication implements CommandLineRunner {
 		//Admin olusturulacak built_in
 		if (adminService.countAllAdmin() == 0){
 			AdminRequest admin = new AdminRequest();
-			//Username i admin ise bunu direkt built_in yap demistik
 			admin.setUsername("Admin");
 			admin.setSsn("987-99-9999");
 			admin.setPassword("12345678");
@@ -56,7 +52,6 @@ public class SchoolManagmentApplication implements CommandLineRunner {
 			admin.setGender(Gender.FEMALE);
 			admin.setBirthDate(LocalDate.of(2002,5,2));
 			admin.setBirthPlace("US");
-			//Service katmanimizdaki hazir method DTO aldigindan burdada DTO kullandik
 			adminService.save(admin);
 		}
 	}

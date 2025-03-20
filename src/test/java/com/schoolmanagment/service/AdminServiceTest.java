@@ -28,8 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)//Mockito yu kullanacagimizi belirtiyoruz
-//Mocklama icin kullaniliyor
+@ExtendWith(MockitoExtension.class)
 class AdminServiceTest {
 
     @Mock//mockluyoruz
@@ -52,7 +51,6 @@ class AdminServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    //Yukarda mocklanan nesneleri adminService ornegine otomatik olarak injekte edilmesi saglanir
     private AdminService adminService;
 
     @Test
@@ -65,17 +63,14 @@ class AdminServiceTest {
 
         UserRole adminRole = new UserRole(1, RoleType.ADMIN);
         doNothing().when(fieldControl).checkDuplicate(anyString(),anyString(),anyString());
-        //return u void yani hicbisey yapma diyoruz
 
         when(adminRepository.save(any(Admin.class))).thenReturn(savedAdmin);
-        //Biz AdminService in save methodunu test ediyoruz.adminRepository yi degil
         when(userRoleService.getUserRole(RoleType.ADMIN)).thenReturn(adminRole);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
 
-        //davranis seklini belirliyoruz
         ResponseMessage<AdminResponse> response = adminService.save(request);
 
-        assertNotNull(response);//response objesi null degil degil mi?
+        assertNotNull(response);
         assertEquals("Admin saved",response.getMessage());
         assertEquals(HttpStatus.CREATED,response.getHttpStatus());
         assertNotNull(response.getObject());
@@ -132,7 +127,6 @@ class AdminServiceTest {
 
     }
 
-    //Bazi methodlarin exception firlattigi durumlarda kontrol edilebilir
     @Test
     void deleteAdmin_Successful() {
         Long id = 1L;
@@ -140,7 +134,6 @@ class AdminServiceTest {
         admin.setId(id);
         admin.setBuilt_in(false);
 
-        //mocklada yapilabilir
         when(adminRepository.findById(id)).thenReturn(Optional.of(admin));
 
         String result = adminService.deleteAdmin(id);

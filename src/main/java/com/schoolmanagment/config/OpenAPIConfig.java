@@ -12,11 +12,7 @@ import org.springframework.context.annotation.Configuration;
 info = @Info(title = "StudentManagement API",version = "1.0.0"),
 security = @SecurityRequirement(name = "Bearer"))
 @SecurityScheme(name = "Bearer",type = SecuritySchemeType.HTTP,scheme = "Bearer")
-/*
-Ana amacimiz dokumantasyon hakkinda bilgi vermek
-info: bilgilendirme
-security: API ya erisim icin guvenlik detaylari(Bearer gibi)
- */
+
 public class OpenAPIConfig {
 //localhost:8080/swagger-ui/index.html swagger icin sabit adres
 

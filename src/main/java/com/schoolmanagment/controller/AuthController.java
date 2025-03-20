@@ -32,40 +32,30 @@ public class AuthController {
 
     @PostMapping("/login") // http://localhost:8080/auth/login
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
-        //bunlarin service katmani olmaz.
-        //Gelen requestin icinden kullanici ve parola bilgisi alinir
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
 
-        //authenticationManager uzerinden kullanici valide ediyoruz.
         Authentication authentication = authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(username,password));
-        //Valide edilen kullanici contexte atilir
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //JWT token olusturluyor
         String token = jwtUtils.generateJwtToken(authentication);
-        //Validasyonlarla Bearer in onemi yok ancak on taraf gorsun diye ekledik
 
-        //Normalde kod bitti ancak on tarafa(response) rolun de gitmesini istiyoruz.
-        //security den role almak istiyoruz.UserDetails de rol yok grantedAuth var o yuzden biraz ugrastiracak
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         Set<String> roles = userDetails.
                 getAuthorities().
                 stream().
-                map(GrantedAuthority::getAuthority).//Bu bize GrantedAuth rollerini String olarak bize getirir.
+                map(GrantedAuthority::getAuthority).
                 collect(Collectors.toSet());
 
-        Optional<String> role = roles.stream().findFirst();//Zaten 1 tane rolu var(rolu yoksa diye Optinal kullandik)
-        //Sistemde suan herkesin tek rolu var
+        Optional<String> role = roles.stream().findFirst();
 
-        //AuthResponse Bu da yapilabilir(cok sevmiyoruz)
         AuthResponse.AuthResponseBuilder authResponse = AuthResponse.builder();
         authResponse.username(username);
         authResponse.token(token);
         authResponse.name(userDetails.getName());
 
-        //Rol mevcutsa ve TEACHER ise advisor durumu getiriliyor.
         if(role.isPresent()){
             authResponse.role(role.get());
             if (role.get().equalsIgnoreCase(RoleType.TEACHER.name())){
@@ -73,7 +63,6 @@ public class AuthController {
             }
         }
 
-        //AuthResponse nesnesi ResponseEntity ile donduruyoruz
         return ResponseEntity.ok(authResponse.build());
     }
 

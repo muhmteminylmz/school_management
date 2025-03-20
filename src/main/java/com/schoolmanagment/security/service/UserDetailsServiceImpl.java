@@ -19,18 +19,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final DeanRepository deanRepository;
     private final ViceDeanRepository viceDeanRepository;
     private final AdminRepository adminRepository;
-    //guest yok cunku ona zaten jwt token uretmeyecegiz.
 
     @Override
     @Transactional
-    /*
-Bu özel durumda, loadUserByUsername methodu kullanıcının
-veritabanından bilgilerini yüklemek için farklı repository'leri kullanır.
-Bu repository'lerden her biri ayrı bir veritabanı işlemi gerçekleştirir.
-@Transactional annotasyonu, tüm bu işlemlerin tek bir transaction içinde gerçekleştirilmesini sağlar.
-Yani, eğer herhangi bir veritabanı işlemi başarısız olursa,
-tüm işlemler geri alınır (rollback) ve veritabanı tutarlı bir durumda kalır.
-     */
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //User i UserDetails e cevirecegiz
 

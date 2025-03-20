@@ -25,10 +25,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-//Eski versiyonda 2 tane methodu override etmemiz gerekiyordu
-//Artik Bean olarak olusturarak hallediyoruz.Yeni versiyonda daha performansli
-
-    //Genelde Security kodlari boilerplate dir(Yani sabittir kopyala yapistir ile yazilir)
 
     private final UserDetailsServiceImpl userDetailsService;
 
@@ -48,11 +44,9 @@ public class WebSecurityConfig {
         return authProvider;
     }
 
-    //Bunu ekliyoruz ki olusacak olan encoderi burda kullanabilelim
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
-        //pom a baska encoder ekleyip burda kullanabiliriz.
     }
 
     @Bean
@@ -64,10 +58,9 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.cors().//frontend ve backend imiz farkli serverdaysa calistirmayan guvenlik onlemi
-        //(eskiden ayni server da ayni portla oluyordu,suan farkli serverlarda kullanilabiliyor.
+        http.cors().//frontend ve backend i farkli serverdaysa calistirmayan guvenlik onlemi
         and().csrf().disable().
-                exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().//unauthorized hata formatini degistirdik.
+                exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
                 authorizeRequests().antMatchers(AUTH_WHITE_LIST).permitAll().
                 anyRequest().authenticated();
@@ -89,7 +82,7 @@ public class WebSecurityConfig {
             "/auth/login",
             "/v3/api-docs/**", //swagger
             "/swagger-ui/**", //swagger
-            "/swagger*/**" //bu yukardakini kapsiyor gibi
+            "/swagger*/**", //swagger
     };
 
     @Bean
@@ -100,8 +93,8 @@ public class WebSecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 //corse uzerinde degislik yapmamizi sagliyor
 
-                registry.addMapping("/**").//Tum URL leri kapsayacagini soyledik
-                    allowedOrigins("*").//tum kaynaklara izin verecegimizi soyluyoruz.(Farkli protokol,port ...)
+                registry.addMapping("/**").//Tum URL leri kapsayacak
+                    allowedOrigins("*").//tum kaynaklara izin ver(Farkli protokol,port ...)
                     allowedHeaders("*").//hangi headlara(request,response taki headlerlar) izin verilecek
                     allowedMethods("*");//tum HTTP methodlara izin verildi.
             }

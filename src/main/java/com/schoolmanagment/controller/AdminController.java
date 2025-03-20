@@ -20,7 +20,6 @@ import java.util.Objects;
 @RequestMapping("admin")
 @RequiredArgsConstructor
 public class AdminController {
-//Admin Dean create edebilir,ancak onu DeanController da yazip yetkiyi admine vericez.(BestPractice)
 
     private final AdminService adminService;
 
@@ -35,7 +34,6 @@ public class AdminController {
     public ResponseEntity<?> save(@RequestBody @Valid AdminRequest adminRequest){
 
         return ResponseEntity.ok(adminService.save(adminRequest));
-        //Bana responseEntity araciligiyla admin request objesini gonder
     }
 
     //Not: getAll() *****
@@ -51,7 +49,6 @@ public class AdminController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
 
         if (Objects.equals(type,"desc")){
-            //Pageable obje olusturulmasi service katindada yapilabilir.
             pageable = PageRequest.of(page,size,Sort.by(sort).descending());
         }
 

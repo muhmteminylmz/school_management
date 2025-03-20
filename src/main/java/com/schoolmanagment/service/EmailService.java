@@ -18,12 +18,11 @@ public class EmailService {
     public static void sendMail(String recipient, String mailMessage, String subject) throws MessagingException {
 
         Properties properties = new Properties();
-        //Bunu application.properties dende yapabiliriz
 
         //Gmail SMTP sunucusu kullanarak e-posta gondermek icin yapilandiriliyor.
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.port", "587");
-        //properties.put("mail.smtp.host", "smtp.gmail.com");
+
         //outlook icin
         properties.put("mail.smtp.host", "smtp.office365.com");
         properties.put("mail.smtp.auth", "true");

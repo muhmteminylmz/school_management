@@ -1,7 +1,0 @@
-Biz burda yardımcı methodları(ana method icindeki methodlar) yalanci olarak yazarız
-(sanki istedigimiz degeri donduruyor,dogru calisiyor gibi)(CTRL + SHIFT + T)
-
-Sanki o method,class vb varmis ve calisiyormus gibi davranilir(mocklamak)
-Mocklamadan bir methodu kullanmak onu gercekten calistirir ve DB e gidebilir
-
-Yardimci methodlar ya mocklarin yada varmis gibi yazilir(bilgiler elle setlenir)

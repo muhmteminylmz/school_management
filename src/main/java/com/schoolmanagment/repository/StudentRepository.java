@@ -38,7 +38,6 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
     @Query("SELECT s FROM Student s WHERE s.advisorTeacher.teacher.username =:username")
     //@Query(value = "SELECT s FROM Student s JOIN s.advisorTeacher at JOIN at.teacher t WHERE t.username =:username)
-    //sql yazsaydik 2 tane join kullanmamiz gerekecekti
     List<Student> getStudentByAdvisorTeacher_Username(String username);
 
     @Query("SELECT s FROM Student s WHERE s.id IN :id")

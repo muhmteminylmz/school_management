@@ -57,16 +57,13 @@ public class StudentInfoService {
             throw new ConflictException(String.format(Messages.ALREADY_REGISTER_LESSON_MESSAGE,lesson.getLessonName()));
         }
 
-        //Ders notu ortalamasi aliniyor
         Double noteAverage = calculateExamAverage(studentInfoRequest.getMidtermExam(),studentInfoRequest.getFinalExam());
 
-        //Ders notu alfabetik olarak hesaplaniyor.
         Note note = checkLetterGrade(noteAverage);
 
         //DTO-> POJO
         StudentInfo studentInfo = createDto(studentInfoRequest,note,noteAverage);
-        //normalde id degerleri var ancak bize fazlasi lazim
-        //DTO da olmayan field lar setleniyor.
+
         studentInfo.setStudent(student);
         studentInfo.setTeacher(teacher);
         studentInfo.setEducationTerm(educationTerm);
@@ -75,7 +72,6 @@ public class StudentInfoService {
 
         StudentInfo savedStudentInfo = studentInfoRepository.save(studentInfo);
 
-        //Response objesi olustuluruyor
         return ResponseMessage.<StudentInfoResponse>builder()
                 .message("Student Info Saved Successfully")
                 .object(createResponse(savedStudentInfo))
@@ -185,23 +181,17 @@ public class StudentInfoService {
         StudentInfo getStudentInfo = getStudentInfoById(studentInfoId);
         EducationTerm educationTerm = educationTermService.getById(studentInfoRequest.getEducationTermId());
 
-        //Dersnot ortalamasi hesaplaniyor
-
         Double notAverage = calculateExamAverage(studentInfoRequest.getMidtermExam(),studentInfoRequest.getFinalExam());
 
-        //Alfabetik Not belirlenecek
         Note note = checkLetterGrade(notAverage);
 
-        //DTO --> POJO
         StudentInfo studentInfo = createUpdatedStudent(studentInfoRequest,studentInfoId,lesson,educationTerm,note,notAverage);
-        //Student ve Teacher nesneleri etkiliyor(Put Mapping den dolayi setlemessek null a cekilirler)
+
         studentInfo.setStudent(getStudentInfo.getStudent());
         studentInfo.setTeacher(getStudentInfo.getTeacher());
 
-        //DB kayit islemi
         StudentInfo updatedStudentInfo = studentInfoRepository.save(studentInfo);
 
-        //Response objesi olusturuluyor
         return ResponseMessage.<StudentInfoResponse>builder()
                 .object(createResponse(updatedStudentInfo))
                 .message("Student Info updated successfully")
@@ -245,7 +235,6 @@ public class StudentInfoService {
 
     //Not: getAllForTeacher ***
     public Page<StudentInfoResponse> getAllTeacher(String username, Pageable pageable) {
-        //pageable yapiyi kendisi otomatik algiliyor(Page geri donduruyor)
         return studentInfoRepository.findByTeacherId_UsernameEquals(username,pageable)
                 .map(this::createResponse);
     }

@@ -56,7 +56,7 @@ public class DeanController {
     @GetMapping("/getAll") // http://localhost:8080/dean/getAll
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public List<DeanResponse> getAll(){
-        //Page yapiyla aliriz genelde bu sefer list olarak aldik
+
         return deanService.getAllDean();
     }
 

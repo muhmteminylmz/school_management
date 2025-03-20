@@ -40,5 +40,4 @@ public class LessonProgramRequest {
     @NotNull(message = "Please enter a education term")
     private Long educationTermId;
 
-    //teacher ve student burda alinmaz yapilacaksa service katinda yapilir.
 }

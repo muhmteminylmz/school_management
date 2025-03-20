@@ -21,7 +21,6 @@ public class EducationTermRequest implements Serializable {
     private Term term;
 
     @NotNull(message = "Start Date must not be empty")
-    //@Column(name = "start_date") DB e gitmeyecegi icin proglem yapmaz
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 

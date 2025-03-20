@@ -28,7 +28,6 @@ public class Teacher extends User {
     @Column(unique = true)
     private String email;
 
-    //StudentInfo(yazacagimiz query leri kolaylastiriyoruz.) ,lessonProgram
     @OneToMany(mappedBy = "teacher",cascade = CascadeType.REMOVE)
     private List<StudentInfo> studentInfos;
 

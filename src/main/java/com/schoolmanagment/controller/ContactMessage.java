@@ -21,7 +21,6 @@ public class ContactMessage {
     //Not: save() *****
     @PostMapping("/save")
     public ResponseMessage<ContactMessageResponse> save(@Valid @RequestBody ContactMessageRequest contactMessageRequest) {
-        //Kendi ResponseMessage olusturmamizin ana amaci istedigim class i return de kullanabilrmemiz(ContactMessage dondurme)
         //ContactMessageRequest bir DTO
 
         //ResponseMessage i Service katinda dondurecegiz.
@@ -30,15 +29,12 @@ public class ContactMessage {
 
     //Not: getAll() *****
     @GetMapping("/getAll")
-    //Genelde boyle hardcode olarak yazilir(cok Role yok)
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER')")
     public Page<ContactMessageResponse> getAll(
-        //Cok fazla ContactMessage olabileceginden Page kullanmaliyiz.
         @RequestParam(value = "page",defaultValue = "0") int page,
         @RequestParam(value = "size",defaultValue = "10") int size,
         @RequestParam(value = "sort",defaultValue = "date") String sort,
         @RequestParam(value = "type",defaultValue = "desc") String type
-        //Normalde direkt frontend e atardik bu sefer default deger atadik
 ){
         return contactMessageService.getAll(page,size,sort,type);
 
@@ -74,4 +70,3 @@ public class ContactMessage {
 
 
 }
-//ODEV : Hepsinin Postman de END-POINTLERI test edilecek

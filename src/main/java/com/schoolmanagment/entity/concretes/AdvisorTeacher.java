@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder//Hic biyerden extent edilmedi SuperBuilder a gerek yok
+@Builder
 public class AdvisorTeacher implements Serializable {
 
     @Id

@@ -16,9 +16,6 @@ public class FieldControl {
     private final ViceDeanRepository viceDeanRepository;
     private final GuestUserRepository guestUserRepository;
 
-    //methodun donen objesi olmadigindan Bean biraz mantiksiz kaliyor.
-    //buyuk uygulamada en mantiklisi dependency injection
-    //biz static kullaniyoruz.
     public void checkDuplicate(String... values) {
         String username = values[0];
         String ssn = values[1];

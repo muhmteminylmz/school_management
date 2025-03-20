@@ -85,7 +85,6 @@
 
 		<!-- SWAGGER icin -->
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-        <!-- Core tarafiyla alakali kodlar geliyor -->
 		<dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi-ooxml</artifactId>
@@ -93,7 +92,6 @@
         </dependency>
 
         <!-- https://avnrepository.com/artifact/org.splingdoc/springdoc-openapi-ui -->
-        <!-- Swagger a browser uzerinden erisim sagladigimizda daha ui(kullanici dostu) olmasini sagliyor-->
 		<dependency>
         <groupId>org.springdoc</groupId>
         <artifactId>springdoc-openapi-ui</artifactId>

@@ -13,21 +13,11 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-/*
-@MappedSuperclass anotasyonu kullanılan sınıflar doğrudan veritabanında tablo oluşturmaz,
-ancak bu sınıflardan türeyen alt sınıflar bu sınıftaki alanları ve ilişkileri miras alırlar.
-Yani, bu User sınıfı tabloya dönüşmez, ancak onu miras alan sınıflar bu alanları ve
-ilişkileri kullanarak tablo oluştururlar.
- */
-@MappedSuperclass//anotasyonu ile işaretlenmiş sınıflar, tablo oluşturmamakla birlikte, bu sınıfı
-//miras alan alt sınıflar, ilişkiler de dahil olmak üzere tüm özellikleri kullanabilir.
-//Yani User class i Bir A class indan extend edildiginde bu Entity olmasa bile field lari A daki tabloya katilir.
+@MappedSuperclass
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder//Alt siniflarin User sinifinin builder ozelliklerini kullanabilmesine izin verir.
-//Bu DB ye etki etmez.
-
+@SuperBuilder
 public abstract class User implements Serializable {
 
     @Id//Burdan tablo olusmayacak ancak SuperBuilder la child lar kullanacak

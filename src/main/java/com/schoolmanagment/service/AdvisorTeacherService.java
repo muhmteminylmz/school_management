@@ -25,9 +25,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdvisorTeacherService {
 
-    //Bize gelen request advisorTeacher degilde baska endpoint den gelicekse ve AdvisorTeacher
-    //uzerinden yapilmasi gerekiyorsa controller a eklenmez sadece service de olur.
-
     private final AdvisorTeacherRepository advisorTeacherRepository;
     private final UserRoleService userRoleService;
 
@@ -89,11 +86,9 @@ public class AdvisorTeacherService {
 
     //Not: updateAdvisorTeacher() ***
     public void updateAdvisorTeacher(boolean status, Teacher teacher) {
-        //teacherId ile iliskilendirilmis AdvisorTeacher nesnesini DB den bulup getiriyoruz.
         Optional<AdvisorTeacher> advisorTeacher =
                 advisorTeacherRepository.getAdvisorTeacherByTeacher_Id(teacher.getId());
 
-        //suan eksik o yuzden build yapmadik.
         AdvisorTeacher.AdvisorTeacherBuilder advisorTeacherBuilder = AdvisorTeacher.builder()
                 .teacher(teacher)
                 .userRole(userRoleService.getUserRole(RoleType.ADVISORTEACHER));
@@ -107,7 +102,6 @@ public class AdvisorTeacherService {
             }
         } else {//TODO buraya bakilacak
             advisorTeacherRepository.save(advisorTeacherBuilder.build());
-            //eger zaten advisorTeacher sa id si var diger veriler guncelleniyor.
         }
 
     }
@@ -120,7 +114,6 @@ public class AdvisorTeacherService {
     //MeetService icin gerekli method
     public Optional<AdvisorTeacher> getAdvisorTeacherByUsername(String username) {
 
-        //findByUsername de calisir biraz daha ogrenelim diye
         return advisorTeacherRepository.findByTeacher_UsernameEquals(username);
     }
 }

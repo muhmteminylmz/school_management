@@ -25,10 +25,8 @@ public class JwtUtils {
     public String generateJwtToken(Authentication authentication) {
 
     //anlik olarak login islemi yapan kullanici bilgisi
-        //Security katmaninda User yok UserDetails var
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
-        //username bilgisi ile jwt token uretiliyor.
         return generateTokenFromUsername(userPrincipal.getUsername());
     }
 
@@ -49,7 +47,6 @@ public class JwtUtils {
 
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-            //Sikinti varsa zaten yukarda exception firliyor
             return true;
         } catch (ExpiredJwtException e) {
             logger.error("Jwt token is expired : {}",e.getMessage());

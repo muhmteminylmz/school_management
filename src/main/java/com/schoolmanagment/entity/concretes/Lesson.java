@@ -31,8 +31,5 @@ public class Lesson implements Serializable {
     @ManyToMany(mappedBy = "lesson")
     private Set<LessonProgram> lessonPrograms;
 
-    //NORMALDE lessonProgram la manytomany iliskisi var
-    //biz joinTable yapmasaydik hibernate default olarak bizim yerimize
-    //olusturdu.Biz hibernate e birakmamaliyiz
 
 }

@@ -48,19 +48,15 @@ public class ViceDeanService {
                 viceDeanRequest.getUsername(),
                 viceDeanRequest.getSsn(),
                 viceDeanRequest.getPhoneNumber());
-        //adminService.checkDuplicate(viceDeanRequest.getUsername(),viceDeanRequest.getSsn(),viceDeanRequest.getPhoneNumber());
 
         ViceDean viceDean = createPojoFromDto(viceDeanRequest);
         viceDean.setUserRole(userRoleService.getUserRole(RoleType.ASSISTANTMANAGER));
-        //passwordu istersek viceDean den de alabiliriz.
         viceDean.setPassword(passwordEncoder.encode(viceDeanRequest.getPassword()));
 
         viceDeanRepository.save(viceDean);
-        //response nesnesi olusturulacak
         return ResponseMessage.<ViceDeanResponse>builder()
                 .message("Vice Dean Saved")
                 .httpStatus(HttpStatus.CREATED)
-                //burda request gonderemeyiz cunku id si yok,yani istedigimizde kullaniciya ulasamayiz.
                 .object(createViceDeanResponse(viceDean))
                 .build();
     }
@@ -96,7 +92,6 @@ public class ViceDeanService {
                     newViceDean.getUsername(),
                     newViceDean.getSsn(),
                     newViceDean.getPhoneNumber());
-            //adminService.checkDuplicate(newViceDean.getUsername(),newViceDean.getSsn(),newViceDean.getPhoneNumber());
         }
 
         ViceDean updatedViceDean = createUpdatedViceDean(newViceDean,managerId);
@@ -112,7 +107,6 @@ public class ViceDeanService {
     }
 
     private ViceDean createUpdatedViceDean(ViceDeanRequest viceDeanRequest,Long managerId) {
-        //NOT_NULL yok o yuzden password burda yazmadik yukarda yazip encode layip setliyecegiz
         return ViceDean.builder()
                 .id(managerId)
                 .username(viceDeanRequest.getUsername())

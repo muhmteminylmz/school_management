@@ -36,11 +36,7 @@ public class StudentInfoController {
         //httpServletRequest in amaci teacher a ulasmak
 
         String username = httpServletRequest.getHeader("username");
-        //Attribute(biz postman de header olarak girdi sagladigimizdan null gelemmesi icin)
-        //header da username tanimlamayinca null gelebilir.
-        //front-end de bu yonetilebilir.
-        //verdigimiz JSON dan almaya calisiyor alamadigi zaman null geliyor.
-        //String username = (String) httpServletRequest.getAttribute("username");
+
         return studentInfoService.save(username,studentInfoRequestWithoutTeacherId);
     }
 
@@ -67,7 +63,6 @@ public class StudentInfoController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size
     ){
-        //Pageable obje olusturma islemini Service katinda yailmasi best practice
         Pageable pageable = PageRequest.of(page,size, Sort.by("id").descending());
         Page<StudentInfoResponse> studentInfoResponse = studentInfoService.getAllForAdmin(pageable);
 
@@ -84,15 +79,12 @@ public class StudentInfoController {
         @RequestParam(value = "size") int size
     ){
         Pageable pageable = PageRequest.of(page,size, Sort.by("id").descending());
-        //Burdada Teacher in sadece kendi ogrenci bilgilerini gormesini sagliyoruz.
 
         String username = httpServletRequest.getHeader("username");
-        //String username = (String) httpServletRequest.getAttribute("username");
 
         Page<StudentInfoResponse> studentInfoResponse = studentInfoService.getAllTeacher(username,pageable);
 
         return new  ResponseEntity<>(studentInfoResponse,HttpStatus.OK);
-        //return ResponseEntity.ok(studentInfoResponse);
     }
 
 

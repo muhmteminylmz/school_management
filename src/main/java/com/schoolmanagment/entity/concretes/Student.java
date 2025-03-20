@@ -13,11 +13,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@SuperBuilder//Farkli parametrelerle cons uretir. Tureyen ve tureten class da kullanilir.Single da Build kullanilir.
+@SuperBuilder
 @EqualsAndHashCode(callSuper = true,onlyExplicitlyIncluded = true)
-//callsuper : parent i varsa karsilastirma yapiliyorsa parent taki field larida karsilastirmaya ekle
-//onlyExplicitlyIncluded : ilgili field lara annotation ekleyerek karsilastirmada istedigimiz field i gosterebilriz.
-//HASH tum field lari hash methoduna sokar ve unique bir data elde edip(ayni class ayni deger) islemi hizlandirir.
 @ToString(callSuper = true)
 public class Student extends User {
 

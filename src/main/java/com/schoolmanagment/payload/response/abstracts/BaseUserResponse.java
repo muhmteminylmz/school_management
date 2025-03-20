@@ -17,7 +17,6 @@ import java.time.LocalDate;
 public class BaseUserResponse {
 
     private Long userId;
-    //Burda id gonderdik bunu clint gormiyecek FrontEnd kullanmak isterse diye
     private String userName;
     private String name;
     private String surname;

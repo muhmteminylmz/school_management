@@ -14,5 +14,4 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class GuestUser extends User {
 
-    //User burasi icin yeterli
 }

@@ -36,7 +36,7 @@ public class Meet implements Serializable {
     private LocalTime stopTime;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonIgnoreProperties({"teacher"})//Teacher clint a gitmesin(json olarak gondermesin)
+    @JsonIgnoreProperties({"teacher"})
     private AdvisorTeacher advisorTeacher;
 
     //@ManyToMany(mappedBy = "meetList", fetch = FetchType.EAGER) DB yi sikintiya atiyor

@@ -55,22 +55,16 @@ public class TeacherService {
                                         teacherRequest.getEmail());
         }
 
-        //dto-pojo donusumu
         Teacher teacher = teacherRequestToDto(teacherRequest);
 
-        //rol bilgisi setleniyor
         teacher.setUserRole(userRoleService.getUserRole(RoleType.TEACHER));
 
-        //ders programi ekleniyor
         teacher.setLessonsProgramList(lessons);
 
-        //sifre encode ediliyor
         teacher.setPassword(passwordEncoder.encode(teacherRequest.getPassword()));
 
-        //DB ye kayit islemi
         Teacher savedTeacher = teacherRepository.save(teacher);
 
-        //Advisor ise advisorTeacher tablosun degistiriyoruz.
         if (teacherRequest.isAdvisorTeacher()){
             advisorTeacherService.saveAdvisorTeacher(savedTeacher);
         }
@@ -132,9 +126,8 @@ public class TeacherService {
         }
 
         Teacher updatedTeacher = createUpdatedTeacher(newTeacher,userId);
-        //password encode ediyoruz
+
         updatedTeacher.setPassword(passwordEncoder.encode(newTeacher.getPassword()));
-        //lesson program setliyoruz.
         updatedTeacher.setLessonsProgramList(lessons); //TODO buraya bakilacak
 
         Teacher savedTeacher = teacherRepository.save(updatedTeacher);
@@ -189,7 +182,6 @@ public class TeacherService {
            throw new ResourceNotFoundException(Messages.NOT_FOUND_USER_MESSAGE);
         });
 
-        //lessonPrgoramda teacher kaldirilacak??
         teacherRepository.deleteById(id);
 
         return ResponseMessage.builder()
@@ -227,12 +219,10 @@ public class TeacherService {
     //Not: addLessonProgramToTeachersLessonsProgram() ***
     public ResponseMessage<TeacherResponse> chooseLesson(ChooseLessonTeacherRequest chooseLessonRequest) {
 
-        //Teacher yoksa?
         Teacher teacher = teacherRepository.findById(chooseLessonRequest.getTeacherId())
                 .orElseThrow(() -> new ResourceNotFoundException(Messages.NOT_FOUND_USER_MESSAGE));
-        //LessonProgram getiriliyor
         Set<LessonProgram> lessonPrograms =lessonProgramService.getLessonProgramById(chooseLessonRequest.getLessonProgramId());
-        //LessonProgram ici bos mu kontrol
+
         if (lessonPrograms.isEmpty()){
             throw new ResourceNotFoundException(Messages.LESSON_PROGRAM_NOT_FOUND_MESSAGE);
         }

@@ -15,7 +15,6 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
     Optional<Lesson> getLessonByLessonName(String lessonName);
 
-    //JPQL    :lessons yerine : lessons yazarsak calismaz
     @Query(value = "SELECT l FROM Lesson l WHERE l.lessonId IN :lessons")
     Set<Lesson> getLessonByLessonIdList(Set<Long> lessons);
 

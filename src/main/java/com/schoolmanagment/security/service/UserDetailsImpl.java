@@ -24,7 +24,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private String name;
 
-    private Boolean isAdviser;//User rolleri gelicek(teacher) o yuzden eklendi(cunku Adviser Teacher yok)
+    private Boolean isAdviser;
 
     @JsonIgnore
     private String password;
@@ -38,7 +38,7 @@ public class UserDetailsImpl implements UserDetails {
         this.name = name;
         this.isAdviser = isAdviser;
         this.password = password;
-        //Userimizda GrantedAuthory diye bisey yok bunun amaci user larimizi gondermesi
+
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(role));
         this.authorities = grantedAuthorities;
@@ -80,7 +80,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public boolean equals(Object o) {
-        if (this == o)//kendisiyle karsilastiriliyor
+        if (this == o)
         {
             return true;
         }
@@ -89,6 +89,5 @@ public class UserDetailsImpl implements UserDetails {
         }
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id,user.id);
-        //Hangisinden yakalarsak.(2 farkli user ayni kisi mi??)
     }
 }

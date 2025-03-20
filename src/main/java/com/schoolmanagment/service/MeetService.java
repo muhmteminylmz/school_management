@@ -66,7 +66,6 @@ public class MeetService {
         meet.setStudentList(students);
         meet.setDescription(meetRequest.getDescription());
 
-        //save islemi
         Meet savedMeet = meetRepository.save(meet);
 
         return ResponseMessage.<MeetResponse>builder()
@@ -178,8 +177,6 @@ public class MeetService {
         }
 
         //her ogrenci icin meet conflict kontrolu
-        //if in icinde request den gelen meet ile orijinal meet objesinde date,startTime ve stopTime
-        //bilgilerinde degisiklik yapildiysa checkMeetConflict metoduna girmesi saglaniyor
         if (!(getMeet.getDate().equals(meetRequest.getDate()) &&
             ((meetRequest.getStartTime().equals(getMeet.getStartTime()) &&
             meetRequest.getStopTime().equals(getMeet.getStopTime()))))) {

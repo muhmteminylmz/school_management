@@ -43,7 +43,6 @@ public class StudentService {
 
     public ResponseMessage<StudentResponse> save(StudentRequest studentRequest) {
 
-        //AdvisorTeacher kontrolu(baska tablodan veri)
          AdvisorTeacher advisorTeacher = advisorTeacherService.getAdvisorTeacherById(studentRequest.getAdvisorTeacherId()).orElseThrow(() ->
                  new ResourceNotFoundException(String.format
                          (Messages.NOT_FOUND_ADVISOR_MESSAGE, studentRequest.getAdvisorTeacherId())));
@@ -52,9 +51,8 @@ public class StudentService {
         fieldControl.checkDuplicate(studentRequest.getUsername(),studentRequest.getSsn(),
                 studentRequest.getPhoneNumber(),studentRequest.getEmail());
 
-        //Student DTO -> POJO
         Student student = studentRequestToDto(studentRequest);
-        //student nesnesindeki eksik datalari setliyoruz
+
         student.setStudentNumber(lastNumber());
         student.setAdvisorTeacher(advisorTeacher);
         student.setPassword(passwordEncoder.encode(student.getPassword()));
@@ -114,7 +112,6 @@ public class StudentService {
     //Not: changeActiveStatus() ***
     public ResponseMessage<?> changeStatus(Long id, boolean status) {
 
-        //id kontrolu
         Student student = studentRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException(Messages.NOT_FOUND_USER_MESSAGE));
 
@@ -137,18 +134,16 @@ public class StudentService {
 
     public ResponseMessage<StudentResponse> updateStudent(Long userId, StudentRequest studentRequest) {
 
-        //student varmi kontrolu
         Student student = studentRepository.findById(userId).orElseThrow(() ->
                 new ResourceNotFoundException(Messages.NOT_FOUND_USER_MESSAGE));
 
-        //AdvisorTeacher kontrolu
         AdvisorTeacher advisorTeacher = advisorTeacherService.getAdvisorTeacherById(studentRequest.getAdvisorTeacherId()).orElseThrow(() ->
                 new ResourceNotFoundException(String.format
                         (Messages.NOT_FOUND_ADVISOR_MESSAGE, studentRequest.getAdvisorTeacherId())));
 
         //Dublicate kontrolu
         if (!CheckParameterUpdateMethod.checkParameter(student,studentRequest)) {
-            //egeri parametreler degistirilmediyse buna girmeye gerek yok
+
             fieldControl.checkDuplicate(studentRequest.getUsername(), studentRequest.getSsn(),
                     studentRequest.getPhoneNumber(), studentRequest.getEmail());
         }
@@ -190,13 +185,11 @@ public class StudentService {
     //Not: deleteStudent() ***
     public ResponseMessage<?> deleteStudent(Long studentId) {
 
-        //id varmi kontrolu
         Student student = studentRepository.findById(studentId).orElseThrow(() ->
                 new ResourceNotFoundException(Messages.NOT_FOUND_USER_MESSAGE));
 
         studentRepository.deleteById(studentId);
         //TODO : Delete islemi calismiyor.   (DB ile alakali)
-        //kendimiz tekrar yazdik Modifying yaptik artik calisiyor.
         return ResponseMessage.builder()
                 .message("Student is deleted Successfully")
                 .httpStatus(HttpStatus.OK)
@@ -212,8 +205,6 @@ public class StudentService {
     }
 
     //Not: getStudentById() ***
-    //Baska service de kullanilacagi icin POJO donmeli
-    //Normalde Controller da olmamasi lazim,biz gorelim diye
     public Student getStudentByIdForResponse(Long id) {
         //TODO
         return studentRepository.findById(id).orElseThrow(() ->
@@ -222,9 +213,6 @@ public class StudentService {
 
 
     public Page<StudentResponse> search(int page, int size, String sort, String type) {
-
-        //Pageable pageable = PageRequest.of(page, size, Sort.by(type,sort));
-        //Yukardaki tek satir asagidaki ile ayni isi yapiyor
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
 
@@ -244,14 +232,12 @@ public class StudentService {
         Student student = studentRepository.findByUsername(username).orElseThrow(() ->
                 new ResourceNotFoundException(Messages.NOT_FOUND_USER_MESSAGE));
 
-        //talep edilen lessonProgram getiriliyor
         Set<LessonProgram> lessonPrograms = lessonProgramService.getLessonProgramById(chooseLessonProgramRequest.getLessonProgramId());
 
         if (lessonPrograms.isEmpty()){
             throw new ResourceNotFoundException(Messages.LESSON_PROGRAM_NOT_FOUND_MESSAGE);
         }
 
-        //ogrencinin mevcut lessonProgramini getiriyoruz
         Set<LessonProgram> currentLessonProgram = student.getLessonsProgramList();
 
         //lesson icin dublicate kontrolu

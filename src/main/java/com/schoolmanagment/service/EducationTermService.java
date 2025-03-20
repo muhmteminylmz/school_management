@@ -30,11 +30,8 @@ public class EducationTermService {
 
         checkEducationTermDate(educationTermRequest);
 
-        //save metoduna dto-pojo donusumu yapip donduruyoruz
-
         EducationTerm savedEducationTerm = educationTermRepository.save(createEducationTerm(educationTermRequest));
 
-        //response objesi olusturuluyor.
         return ResponseMessage.<EducationTermResponse>builder()
                 .message("Education Term created")
                 .object(createEducationTermResponse(savedEducationTerm))
@@ -65,12 +62,9 @@ public class EducationTermService {
 
     public EducationTermResponse get(Long id) {
 
-        //ExistById de calisir ya yoksa(gormedigi durum icin custom yaziyoruz)
         checkEducationTermExists(id);
 
-        //POJO-DTO donusumu ile response hazirlaniyor
         return createEducationTermResponse(educationTermRepository.findByIdEquals(id));
-        //findById de calisir.Biz Custom yazmak istedik
     }
 
     public List<EducationTermResponse> getAll() {
@@ -106,7 +100,6 @@ public class EducationTermService {
 
         checkEducationTermExists(id);
 
-        //Normalde notNull Validation var ancak biz emin olmak istiyoruz.
         if (request.getStartDate()!= null && request.getLastRegistrationDate()!= null){
             if (request.getLastRegistrationDate().isAfter(request.getStartDate())){
                 throw new ResourceNotFoundException(Messages.EDUCATION_START_DATE_IS_EARLIER_THAN_LAST_REGISTRATION_DATE);
@@ -134,7 +127,6 @@ public class EducationTermService {
     }
 
     private EducationTerm createUpdatedEducationTerm(Long id,EducationTermRequest request){
-        //Bundan vardi ancak id li olan yoktu,istersek digerini kullanip setleyede bilirdik.
         return EducationTerm.builder()
                 .id(id)
                 .term(request.getTerm())
@@ -154,8 +146,6 @@ public class EducationTermService {
 
 
 // ---> EDUCATION-TERM-SERVICE <---
-// ODEV-1 ya yoksa kontrolleri method uzerinden cagrilmali
-// ODEV-2 : save ve update methodalrindaki tarih kontrolleri ayri bir method uzerinden cagrilmali
     private void checkEducationTermExists(Long id){
         if (!educationTermRepository.existsByIdEquals(id)){
             throw new ResourceNotFoundException(String.format(Messages.EDUCATION_TERM_NOT_FOUND_MESSAGE,id));
@@ -165,7 +155,6 @@ public class EducationTermService {
     private void checkEducationTermDate(EducationTermRequest educationTermRequest){
         //son kaayit tarifi, ders doneminin baslangic tarihinden sonra olmamali
         if (educationTermRequest.getLastRegistrationDate().isAfter(educationTermRequest.getStartDate())) {
-            //Time exception olusturulabilir
             throw new ResourceNotFoundException(Messages.EDUCATION_START_DATE_IS_EARLIER_THAN_LAST_REGISTRATION_DATE);
         }
         //bitis tarihi baslangic tarihinden once olmamali
@@ -173,7 +162,6 @@ public class EducationTermService {
             throw new ResourceNotFoundException(Messages.EDUCATION_END_DATE_IS_EARLIER_THAN_START_DATE);
         }
         //ayni term ve baglangic tarihine sahip birden fazla kayip varmi kontrolu
-        //Burdan turetemiyoruz.Cunku ayni gun kontrolu yapar biz yiz kontrolu yapmamiz gerek(startDate bizde year yok)
         if (educationTermRepository.existsByTermAndYearEquals(educationTermRequest.getTerm(),educationTermRequest.getStartDate().getYear())){
             throw new ResourceNotFoundException(Messages.EDUCATION_TERM_IS_ALREADY_EXIST_BY_TERM_AND_YEAR_MESSAGE);
         }

@@ -11,10 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-//Null olanlar gozukmesin
 public class AuthResponse {
 
-    //Hangilerini setlersek onlar gider.
     private String username;
     private String ssn;
     private String role;

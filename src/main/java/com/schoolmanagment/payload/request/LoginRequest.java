@@ -12,9 +12,6 @@ import javax.validation.constraints.NotNull;
 public class LoginRequest {
 //Sisteme giris yapacagimiz DTO
 
-    //Bunun onemi biz bunu kitledik,sadece 2 parametreli endpoint alir.
-    //gelirse 500 lu hatalar aliriz.(yoksa kotu niyetli biri uygulamayi cokertebilir)
-
     @NotNull(message = "Username must not be empty")
     private String username;
 

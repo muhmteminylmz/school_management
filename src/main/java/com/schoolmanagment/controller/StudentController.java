@@ -2,6 +2,7 @@ package com.schoolmanagment.controller;
 
 import com.schoolmanagment.entity.concretes.Admin;
 import com.schoolmanagment.entity.concretes.Student;
+import com.schoolmanagment.entity.enums.RoleType;
 import com.schoolmanagment.payload.request.ChooseLessonProgramWithId;
 import com.schoolmanagment.payload.request.StudentRequest;
 import com.schoolmanagment.payload.response.ResponseMessage;
@@ -98,7 +99,6 @@ public class StudentController {
     //Not: chooseLessonProgramById() ***
     @PostMapping("chooseLesson")
     @PreAuthorize("hasAnyAuthority('STUDENT')")
-    //fazla id almamiz gerekirse requestParam lada alabiliriz
     public ResponseMessage<StudentResponse> chooseLesson(HttpServletRequest request,
                                                          @RequestBody @Valid ChooseLessonProgramWithId chooseLessonProgramRequest){
         //bu kisim servicede yazilirsa daha iyi olur

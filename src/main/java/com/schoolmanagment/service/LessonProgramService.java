@@ -41,38 +41,26 @@ public class LessonProgramService {
 
     private final CreateResponseObjectForService createResponseObjectForService;
 
-    private final StudentService studentService;
-
-    private final TeacherService teacherService;
-
     public ResponseMessage<LessonProgramResponse> save(LessonProgramRequest request) {
 
-        //Lesson Programda olacak dersleri LessonService uzerinden getiriyoruz.
         Set<Lesson> lessons = lessonService.getAllLessonByLessonIdList(request.getLessonIdList());
-        //educationTerm id ile getiriliyor
         EducationTerm educationTerm = educationTermService.getById(request.getEducationTermId());
-        //yukarda gelen lessons ici bos degilse zaman kontrolu yapiliyor
+
         if (lessons.isEmpty()){
             throw new ResourceNotFoundException(Messages.NOT_FOUND_LESSON_IN_LIST);
         } else if (TimeControl.check(request.getStartTime(),request.getStopTime())) {
             throw new BadRequestException(Messages.TIME_NOT_VALID_MESSAGE);
         }
-        //DTO-POJO donusumu
         LessonProgram lessonProgram = lessonProgramRequestToDto(request,lessons);
-        //lessonProgram da educationTerm bilgisi setleniyor
         lessonProgram.setEducationTerm(educationTerm);
 
-        //lessonProgram DB ye kaydediliyor
         LessonProgram savedLessonProgram = lessonProgramRepository.save(lessonProgram);
-        //ResponseMessage objesi olusturuluyor
         return ResponseMessage.<LessonProgramResponse>builder()
                 .message("Lesson Program is Created")
                 .httpStatus(HttpStatus.CREATED)
                 .object(createLessonProgramResponseForSaveMethod(savedLessonProgram))
                 .build();
     }
-    //Config de de olusturabiliyoruz.Ancak normalde birini secmeliyiz
-    //Request i de response u da ayni yontemle yapmaliyiz(service veya config)
     private LessonProgram lessonProgramRequestToDto(LessonProgramRequest request,Set<Lesson> lessons){
         return lessonProgramDto.dtoLessonProgram(request, lessons);
     }
@@ -101,7 +89,6 @@ public class LessonProgramService {
                 .startTime(lessonProgram.getStartTime())
                 .stopTime(lessonProgram.getStopTime())
                 .lessonProgramId(lessonProgram.getId())
-                //.lessonName(lessonProgram.getLesson())
                 .teachers(lessonProgram.getTeachers()
                         .stream().map(this::createTeacherResponse)
                         .collect(Collectors.toSet()))
@@ -135,13 +122,10 @@ public class LessonProgramService {
         });
 
          return createLessonProgramResponse(lessonProgram);
-        //return lessonProgramRepository.findById(id).
-        //       map(this::createLessonProgramResponse).get();
     }
 
     public List<LessonProgramResponse> getAllLessonProgramUnassigned() {
 
-        //Method turetme
         return lessonProgramRepository.findByTeachers_IdNull()
                 .stream()
                 .map(this::createLessonProgramResponse)
@@ -158,15 +142,11 @@ public class LessonProgramService {
 
 
     public ResponseMessage<?> delete(Long id) {
-        //id kontrolu
         lessonProgramRepository.findById(id).orElseThrow(() -> {
             throw new ResourceNotFoundException(String.format(Messages.NOT_FOUND_LESSON_MESSAGE,id));
         });
 
         lessonProgramRepository.deleteById(id);
-
-        //Bu lessonProgram a dahil olan teacher ve studentlardada degisiklik yapilmasi gerekiyor, biz bunu
-        //lessonProgram entity sinifi icinde @PreRemove ile yaptik.
 
         return ResponseMessage.builder()
                 .message("Lesson Program is deleted Successfully")
@@ -228,7 +208,6 @@ public class LessonProgramService {
         return lessonProgramRepository
                 .findAll(pageable)
                 .map(this::createLessonProgramResponse);
-                //cagiran kisiye response gonderildi(pojo yerine)
     }
 
     //Not: getLessonProgramById() *** Teacher method
@@ -236,50 +215,5 @@ public class LessonProgramService {
 
         return lessonProgramRepository.getLessonProgramByLessonProgramIdList(lessonIdList);
     }
-/*
-    //Normalde programda yok o yuzden kontroller cok siki tutulmayacak
-    //Not: update() ***
-    public ResponseMessage<LessonProgramResponse> update(Long lessonProgramId, LessonProgramRequestForUpdate lessonProgramRequest) {
 
-        LessonProgram lessonProgram = lessonProgramRepository.findById(lessonProgramId).orElseThrow(() ->
-                new ResourceNotFoundException(Messages.LESSON_PROGRAM_NOT_FOUND_MESSAGE));
-
-        //Lesson icin turunu Set -> List yaptik
-        List<Lesson> lessons = lessonService.getAllLessonByLessonIdList(lessonProgramRequest.getLessonIdList());
-        EducationTerm educationTerm = educationTermService.getById(lessonProgramRequest.getEducationTermId());
-
-        if (lessons.isEmpty()){
-            throw new ResourceNotFoundException(Messages.NOT_FOUND_LESSON_IN_LIST);
-        } else if (TimeControl.check(lessonProgramRequest.getStartTime(),lessonProgramRequest.getStopTime())) {
-            throw new BadRequestException(Messages.TIME_NOT_VALID_MESSAGE);
-        }
-
-        //Ogrenci bilgileri guncellenecek
-        if (lessonProgramRequest.getStudentIdList() != null && !lessonProgramRequest.getStudentIdList().isEmpty()){
-            Set<Student> students = studentService.getStudentByIds(lessonProgramRequest.getStudentIdList());
-            lessonProgram.setStudents(students);
-        }
-
-
-        //Ogretmen bilgileri guncellenecek
-        if (lessonProgramRequest.getTeacherIdList() != null && !lessonProgramRequest.getTeacherIdList().isEmpty()){
-            Set<Teacher> teachers = teacherService.getTeacherByIds(lessonProgramRequest.getTeacherIdList());
-            lessonProgram.setTeachers(teachers);
-        }
-
-        //start-stop time cakismasi kod uzamasin diye yazilmadi
-        lessonProgram.setLesson(lessons);
-        lessonProgram.setDay(lessonProgramRequest.getDay());
-        lessonProgram.setEducationTerm(educationTerm);
-        lessonProgram.setStartTime(lessonProgramRequest.getStartTime());
-        lessonProgram.setStopTime(lessonProgram.getStopTime());
-
-        LessonProgram savedLessonProgram = lessonProgramRepository.save(lessonProgram);
-
-        return ResponseMessage.<LessonProgramResponse>builder()
-                .message("Lesson Program Saved Successfully")
-                .httpStatus(HttpStatus.OK)
-                //objeyi belirtmekle ugrasmadik
-                .build();
-    }*/
 }

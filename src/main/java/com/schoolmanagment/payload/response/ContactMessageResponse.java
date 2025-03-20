@@ -15,9 +15,6 @@ import java.time.LocalDate;
 @Builder(toBuilder = true)
 
 public class ContactMessageResponse implements Serializable {
-//Buda on tarafa gidecekigden Serializable kullaandik
-
-//Zaten DB den gelen veri icin Validation a gerek yoktur.
 
     private String name;
     private String email;

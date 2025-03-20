@@ -22,7 +22,6 @@ public class TeacherRequest extends BaseUserRequest {
 
     @NotNull(message = "Please select isAdvisor Teacher")
     private boolean isAdvisorTeacher = true;
-    //Burda Boolean kullanmiyoruz, cunku lombook da "is" keyword luler sikinti cikartiyor(getter,setter)
 
     @NotNull(message = "Please enter your email")
     @Email(message = "Please enter valid email")

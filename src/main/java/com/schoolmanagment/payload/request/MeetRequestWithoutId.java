@@ -26,7 +26,7 @@ public class MeetRequestWithoutId {
 
     @NotNull(message = "Please enter day")
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    @Future //otomatik kontrol yapiyor.Sonraki gunlere konulmasi icin
+    @Future
     private LocalDate date;
 
     @NotNull(message = "Please enter start time")
